@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "xyz-football-api-collection",
+		"name": "XYZ Football API",
+		"description": "Complete API collection for Football Team Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"token\", jsonData.token);",
+									"    pm.collectionVariables.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": ["{{base_url}}"],
+							"path": ["login"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "Create Team",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Garuda FC\",\n    \"founded_year\": 2020,\n    \"headquarters_city\": \"Jakarta\",\n    \"headquarters_address\": \"Jl. Sudirman No. 1\",\n    \"logo_url\": \"https://example.com/garuda-logo.png\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/teams",
+							"host": ["{{base_url}}"],
+							"path": ["teams"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Teams",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/teams",
+							"host": ["{{base_url}}"],
+							"path": ["teams"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Team by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/teams/1",
+							"host": ["{{base_url}}"],
+							"path": ["teams", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Team",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Garuda Perkasa FC\",\n    \"headquarters_address\": \"Jl. Thamrin No. 5\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/teams/1",
+							"host": ["{{base_url}}"],
+							"path": ["teams", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Team",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/teams/1",
+							"host": ["{{base_url}}"],
+							"path": ["teams", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Players",
+			"item": [
+				{
+					"name": "Create Player",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Budi Santoso\",\n    \"team_id\": 1,\n    \"position\": \"penyerang\",\n    \"jersey_number\": 10,\n    \"height_cm\": 175,\n    \"weight_kg\": 70\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/players",
+							"host": ["{{base_url}}"],
+							"path": ["players"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Players by Team",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/teams/1/players",
+							"host": ["{{base_url}}"],
+							"path": ["teams", "1", "players"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Player",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"height_cm\": 180,\n    \"weight_kg\": 75\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/players/1",
+							"host": ["{{base_url}}"],
+							"path": ["players", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Player",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/players/1",
+							"host": ["{{base_url}}"],
+							"path": ["players", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Matches",
+			"item": [
+				{
+					"name": "Create Match",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"home_team_id\": 1,\n    \"away_team_id\": 2,\n    \"match_datetime\": \"2025-12-20T19:00:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/matches",
+							"host": ["{{base_url}}"],
+							"path": ["matches"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Report Match Result",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"home_score\": 2,\n    \"away_score\": 1,\n    \"goals\": [\n        {\n            \"player_id\": 1,\n            \"goal_time\": 44\n        },\n        {\n            \"player_id\": 1,\n            \"goal_time\": 78\n        },\n        {\n            \"player_id\": 5,\n            \"goal_time\": 65\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/matches/1/result",
+							"host": ["{{base_url}}"],
+							"path": ["matches", "1", "result"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Match Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/matches/1/report",
+							"host": ["{{base_url}}"],
+							"path": ["matches", "1", "report"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": ["{{base_url}}"],
+					"path": ["health"]
+				}
+			},
+			"response": []
+		}
+	]
+}
