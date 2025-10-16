@@ -972,20 +972,6 @@ Jika ada pertanyaan atau masalah, silakan buat issue di repository ini.
 
 ---
 
-## 🎯 Roadmap
-
-- [ ] Implement comprehensive unit tests
-- [ ] Add pagination untuk list endpoints
-- [ ] Implement filtering dan sorting
-- [x] Add Docker support ✅
-- [x] Add Postman Collection ✅
-- [x] Add PowerShell Testing Script ✅
-- [ ] Add CI/CD pipeline
-- [ ] Add Swagger/OpenAPI documentation
-- [ ] Implement Redis caching
-- [ ] Add WebSocket untuk live match updates
-
----
 
 ## 📚 Additional Documentation
 
@@ -994,4 +980,3 @@ Jika ada pertanyaan atau masalah, silakan buat issue di repository ini.
 
 ---
 
-**Happy Coding! ⚽🚀**
