@@ -24,6 +24,16 @@ func NewPlayerHandler(playerRepo *repository.PlayerRepository, teamRepo *reposit
 	}
 }
 
+// CreatePlayerRequest adalah struct untuk request body create player
+type CreatePlayerRequest struct {
+	Name         string `json:"name" binding:"required"`
+	TeamID       uint   `json:"team_id" binding:"required"`
+	Position     string `json:"position" binding:"required,oneof=penyerang gelandang bertahan 'penjaga gawang'"`
+	JerseyNumber int    `json:"jersey_number" binding:"required,min=1,max=99"`
+	HeightCm     *int   `json:"height_cm"`
+	WeightKg     *int   `json:"weight_kg"`
+}
+
 // CreatePlayer menangani endpoint POST /players
 // @Summary Membuat player baru
 // @Description Endpoint untuk membuat player baru dalam sebuah team
@@ -31,17 +41,27 @@ func NewPlayerHandler(playerRepo *repository.PlayerRepository, teamRepo *reposit
 // @Accept json
 // @Produce json
 // @Security BearerAuth
-// @Param body body model.Player true "Player Data"
+// @Param body body CreatePlayerRequest true "Player Data"
 // @Success 201 {object} model.Player
 // @Failure 400 {object} utils.ErrorResponse
 // @Failure 500 {object} utils.ErrorResponse
 // @Router /players [post]
 func (h *PlayerHandler) CreatePlayer(c *gin.Context) {
-	var player model.Player
+	var req CreatePlayerRequest
 
-	if err := c.ShouldBindJSON(&player); err != nil {
+	if err := c.ShouldBindJSON(&req); err != nil {
 		utils.RespondError(c, http.StatusBadRequest, "Data player tidak valid: "+err.Error())
 		return
+	}
+
+	// Mapping request ke model
+	player := model.Player{
+		Name:         req.Name,
+		TeamID:       req.TeamID,
+		Position:     req.Position,
+		JerseyNumber: req.JerseyNumber,
+		HeightCm:     req.HeightCm,
+		WeightKg:     req.WeightKg,
 	}
 
 	// Validasi team exists

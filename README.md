@@ -1,16 +1,45 @@
 # XYZ Football API - Backend Management System
 
-![Go Version](https://img.shields.io/badge/Go-1.21%2B-blue)
+![Go Version](https://img.shields.io/badge/Go-1.23%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-production--ready-brightgreen)
 
 Backend API lengkap untuk manajemen tim sepak bola amatir, pemain, dan jadwal pertandingan. Dibangun dengan **Go (Golang)**, **Gin Framework**, dan **GORM** dengan database **PostgreSQL**.
 
-> 📚 **Dokumentasi Lengkap**: Lihat [INDEX.md](INDEX.md) untuk navigasi semua dokumentasi proyek
+---
+
+## � Quick Start
+
+```bash
+# 1. Clone repository
+git clone <repository-url>
+cd xyz-football-api
+
+# 2. Install dependencies
+go mod download
+
+# 3. Setup environment
+copy .env.example .env
+# Edit .env dengan database credentials Anda
+
+# 4. Create database
+# Di PostgreSQL: CREATE DATABASE football_db;
+
+# 5. Run application
+go run cmd/api/main.go
+
+# 6. Test API
+# PowerShell: .\test-api.ps1
+# Atau buka Postman dan import postman_collection.json
+```
+
+📚 **Dokumentasi Lengkap**:
+- 📬 [POSTMAN-GUIDE.md](POSTMAN-GUIDE.md) - Complete Postman testing guide
+- 🐳 [DOCKER.md](DOCKER.md) - Docker deployment guide
 
 ---
 
-## 📋 Daftar Isi
+## �📋 Daftar Isi
 
 - [Fitur Utama](#-fitur-utama)
 - [Teknologi yang Digunakan](#-teknologi-yang-digunakan)
@@ -64,7 +93,7 @@ Backend API lengkap untuk manajemen tim sepak bola amatir, pemain, dan jadwal pe
 
 | Teknologi | Versi | Kegunaan |
 |-----------|-------|----------|
-| Go (Golang) | 1.21+ | Bahasa pemrograman utama |
+| Go (Golang) | 1.23+ | Bahasa pemrograman utama |
 | Gin-Gonic | Latest | Web framework untuk REST API |
 | GORM | Latest | ORM untuk database operations |
 | PostgreSQL | 12+ | Database relasional |
@@ -125,7 +154,7 @@ xyz-football-api/
 
 Pastikan Anda telah menginstall:
 
-1. **Go (Golang)** versi 1.21 atau lebih baru
+1. **Go (Golang)** versi 1.23 atau lebih baru
    ```bash
    go version
    ```
@@ -818,27 +847,68 @@ Untuk SQL DDL lengkap, lihat spesifikasi di dokumen requirement.
 
 ## 🧪 Testing
 
-### Manual Testing dengan cURL
+### 1. PowerShell Test Script (Automated)
 
-Jalankan file test script:
-```bash
+Jalankan script otomatis untuk testing semua endpoint:
+
+```powershell
 # Windows PowerShell
-./test-api.ps1
-
-# Linux/Mac
-./test-api.sh
+.\test-api.ps1
 ```
 
-### Unit Testing (Coming Soon)
+Script ini akan otomatis:
+- ✅ Health check
+- ✅ Login dan dapatkan JWT token
+- ✅ Create 2 teams
+- ✅ Create 2 players
+- ✅ Create match
+- ✅ Report match result
+- ✅ Get match report dengan statistik lengkap
+
+### 2. Postman Collection (Recommended)
+
+Import `postman_collection.json` ke Postman untuk testing manual:
+
+1. Buka Postman → Klik **Import**
+2. Upload file `postman_collection.json`
+3. Jalankan request **Login** untuk mendapat token (auto-saved)
+4. Test semua endpoint dengan mudah
+
+📚 **Panduan lengkap**: Lihat [POSTMAN-GUIDE.md](POSTMAN-GUIDE.md)
+
+### 3. Docker Testing
+
+Test dengan Docker untuk production-like environment:
 
 ```bash
-go test ./...
+# Start services
+docker-compose up -d
+
+# Test API
+curl http://localhost:8080/health
+
+# View logs
+docker-compose logs -f api
 ```
 
-### Load Testing dengan Apache Bench
+📚 **Panduan lengkap**: Lihat [DOCKER.md](DOCKER.md)
+
+### 4. Manual Testing dengan cURL
 
 ```bash
-ab -n 1000 -c 10 http://localhost:8080/health
+# 1. Health Check
+curl http://localhost:8080/health
+
+# 2. Login
+curl -X POST http://localhost:8080/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}'
+
+# 3. Create Team (ganti YOUR_TOKEN)
+curl -X POST http://localhost:8080/teams \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Garuda FC","founded_year":2020,"headquarters_city":"Jakarta","headquarters_address":"Jl. Sudirman No. 1"}'
 ```
 
 ---
@@ -894,7 +964,9 @@ Project ini dilisensikan di bawah MIT License.
 
 ## 👨‍💻 Author
 
-**Senior Backend Developer**
+**Matthew Raymond Hartono**
+
+Copyright © 2025 Matthew Raymond Hartono. All rights reserved.
 
 Jika ada pertanyaan atau masalah, silakan buat issue di repository ini.
 
@@ -905,7 +977,9 @@ Jika ada pertanyaan atau masalah, silakan buat issue di repository ini.
 - [ ] Implement comprehensive unit tests
 - [ ] Add pagination untuk list endpoints
 - [ ] Implement filtering dan sorting
-- [x] Add Docker support ✅ (See [DOCKER.md](DOCKER.md))
+- [x] Add Docker support ✅
+- [x] Add Postman Collection ✅
+- [x] Add PowerShell Testing Script ✅
 - [ ] Add CI/CD pipeline
 - [ ] Add Swagger/OpenAPI documentation
 - [ ] Implement Redis caching
@@ -915,16 +989,8 @@ Jika ada pertanyaan atau masalah, silakan buat issue di repository ini.
 
 ## 📚 Additional Documentation
 
-Proyek ini memiliki dokumentasi lengkap untuk berbagai kebutuhan:
-
-- 📑 **[INDEX.md](INDEX.md)** - Navigation hub untuk semua dokumentasi
-- 🚀 **[QUICKSTART.md](QUICKSTART.md)** - Setup dalam 5 menit
-- 🏗️ **[STRUCTURE.md](STRUCTURE.md)** - Detailed project structure & architecture
-- 🧪 **[TESTING.md](TESTING.md)** - Comprehensive testing guide
-- 🐳 **[DOCKER.md](DOCKER.md)** - Docker deployment guide
-- 📊 **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** - Complete project summary
-- 📝 **[CHANGELOG.md](CHANGELOG.md)** - Version history & roadmap
-- 🤝 **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
+- 📬 **[POSTMAN-GUIDE.md](POSTMAN-GUIDE.md)** - Complete Postman testing guide
+- � **[DOCKER.md](DOCKER.md)** - Docker deployment guide
 
 ---
 

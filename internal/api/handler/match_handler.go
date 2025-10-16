@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 	"xyz-football-api/internal/model"
 	"xyz-football-api/internal/repository"
 	"xyz-football-api/pkg/utils"
@@ -34,6 +35,13 @@ func NewMatchHandler(
 	}
 }
 
+// CreateMatchRequest adalah struct untuk request body create match
+type CreateMatchRequest struct {
+	HomeTeamID    uint   `json:"home_team_id" binding:"required"`
+	AwayTeamID    uint   `json:"away_team_id" binding:"required"`
+	MatchDatetime string `json:"match_datetime" binding:"required"`
+}
+
 // CreateMatch menangani endpoint POST /matches
 // @Summary Membuat jadwal pertandingan baru
 // @Description Endpoint untuk membuat jadwal pertandingan baru
@@ -41,21 +49,35 @@ func NewMatchHandler(
 // @Accept json
 // @Produce json
 // @Security BearerAuth
-// @Param body body model.Match true "Match Data"
+// @Param body body CreateMatchRequest true "Match Data"
 // @Success 201 {object} model.Match
 // @Failure 400 {object} utils.ErrorResponse
 // @Failure 500 {object} utils.ErrorResponse
 // @Router /matches [post]
 func (h *MatchHandler) CreateMatch(c *gin.Context) {
-	var match model.Match
+	var req CreateMatchRequest
 
-	if err := c.ShouldBindJSON(&match); err != nil {
+	if err := c.ShouldBindJSON(&req); err != nil {
 		utils.RespondError(c, http.StatusBadRequest, "Data match tidak valid: "+err.Error())
 		return
 	}
 
+	// Parse match datetime
+	matchTime, err := time.Parse(time.RFC3339, req.MatchDatetime)
+	if err != nil {
+		utils.RespondError(c, http.StatusBadRequest, "Format match_datetime tidak valid (gunakan ISO 8601/RFC3339)")
+		return
+	}
+
+	// Mapping request ke model
+	match := model.Match{
+		HomeTeamID:    req.HomeTeamID,
+		AwayTeamID:    req.AwayTeamID,
+		MatchDatetime: matchTime,
+	}
+
 	// Validasi home team exists
-	_, err := h.teamRepo.FindByID(match.HomeTeamID)
+	_, err = h.teamRepo.FindByID(match.HomeTeamID)
 	if err != nil {
 		utils.RespondError(c, http.StatusBadRequest, "Home team tidak ditemukan")
 		return
