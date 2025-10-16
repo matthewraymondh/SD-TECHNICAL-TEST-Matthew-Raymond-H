@@ -347,57 +347,6 @@
 
 ---
 
-## 💡 Pro Tips
-
-### 1. Use Collection Variables
-Collection sudah punya 2 variables:
-- `{{base_url}}` - Base URL API
-- `{{token}}` - JWT Token (auto-filled after login)
-
-### 2. Check Pre-request Scripts
-Login request punya script untuk auto-save token:
-```javascript
-if (pm.response.code === 200) {
-    var jsonData = pm.response.json();
-    pm.collectionVariables.set("token", jsonData.token);
-}
-```
-
-### 3. Bearer Token Authentication
-Semua protected endpoints otomatis menggunakan:
-```
-Authorization: Bearer {{token}}
-```
-
-### 4. Save Responses
-Klik **"Save Response"** untuk menyimpan contoh response yang bagus.
-
-### 5. Use Tests Tab
-Tambahkan assertions untuk automated testing:
-```javascript
-pm.test("Status code is 200", function () {
-    pm.response.to.have.status(200);
-});
-
-pm.test("Response has token", function () {
-    var jsonData = pm.response.json();
-    pm.expect(jsonData).to.have.property('token');
-});
-```
-
-### 6. Organize Requests
-Requests sudah dikelompokkan dalam folders:
-- **Authentication** - Login
-- **Teams** - CRUD Teams
-- **Players** - CRUD Players
-- **Matches** - Match operations
-- **Health Check** - API status
-
-### 7. Use Request Examples
-Setiap request sudah punya contoh body yang valid, tinggal edit sesuai kebutuhan.
-
----
-
 ## 🐛 Troubleshooting
 
 ### Error: "Could not send request"
@@ -467,21 +416,5 @@ Setiap request sudah punya contoh body yang valid, tinggal edit sesuai kebutuhan
 
 ---
 
-## 🚀 Next Steps
-
-Setelah familiar dengan Postman:
-1. ✅ Explore semua endpoints
-2. ✅ Test edge cases (invalid data, missing fields, dll)
-3. ✅ Create automated test scripts
-4. ✅ Export environment untuk sharing dengan team
-5. ✅ Setup Collection Runner untuk regression testing
-
----
 
 **Happy Testing! 🎉**
-
-Need help? Check:
-- `README.md` - Complete project documentation
-- `TESTING.md` - General testing guide
-- `POWERSHELL-TESTING.md` - PowerShell specific commands
-- `QUICKSTART.md` - Quick setup guide

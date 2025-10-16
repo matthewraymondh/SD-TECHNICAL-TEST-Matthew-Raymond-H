@@ -299,5 +299,4 @@ Write-Host ""
 Write-Host "Next Steps:" -ForegroundColor Cyan
 Write-Host "  - Check the database to verify data" -ForegroundColor Gray
 Write-Host "  - Import Postman collection for more tests" -ForegroundColor Gray
-Write-Host "  - Read TESTING.md for more examples" -ForegroundColor Gray
 Write-Host ""
