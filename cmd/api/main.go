@@ -13,10 +13,10 @@ func main() {
 	banner := `
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║        XYZ FOOTBALL API - Backend Management System      ║
+║        XYZ FOOTBALL API - Backend Management System       ║
 ║                                                           ║
 ║        Version: 1.0.0                                     ║
-║        Author: Senior Backend Developer                  ║
+║        Author: Matthew Raymond Hartono                   	║
 ║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
 	`
